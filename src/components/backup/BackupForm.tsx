@@ -64,6 +64,7 @@ export function BackupForm({ initial }: { initial: BackupPost | null }) {
       id: newId(), name: `이미지 ${i + 1}`, ref, original: true,
       crop: i === 0 ? initial?.thumbCrop : undefined,
     })));
+const [imageUrlInput, setImageUrlInput] = useState('');
   const [desc, setDesc] = useState(initial?.desc ?? '');
   const del = useConfirmDelete();   // 이미지 제거도 되돌릴 수 없어 경고를 거친다
   // 갤러리 말머리 — 환경설정 > 게시판 관리에서 관리 (v2.0)
@@ -180,7 +181,36 @@ export function BackupForm({ initial }: { initial: BackupPost | null }) {
             여러 장 선택 가능 · ⠿ 드래그로 순서 조정
           </div>
           <input id="bkFiles" type="file" accept="image/*" multiple style={{ display: 'none' }}
-            onChange={e => { addFiles(e.target.files); e.target.value = ''; }} />
+            onChange={e => { addFiles(e.target.files); e.target.value = ''; }} />         
+<div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+  <KInput
+    placeholder="이미지 URL (https://...)"
+    value={imageUrlInput}
+    onChange={e => setImageUrlInput(e.target.value)}
+  />
+  <button
+    type="button"
+    className="btn btn-ghost"
+    onClick={e => {
+      e.stopPropagation();
+      const url = imageUrlInput.trim();
+      if (!/^https?:\/\//i.test(url)) {
+        toast('https://로 시작하는 이미지 주소를 입력해 주세요');
+        return;
+      }
+      setFiles(prev => [...prev, {
+        id: newId(),
+        name: `이미지 #${prev.length + 1}`,
+        ref: url,
+        original: true
+      }]);
+      setImageUrlInput('');
+    }}
+  >
+    + ADD URL
+  </button>
+</div>
+
           {files.length > 0 && (
             <div className="upfile-count">✓ {files.length}장 — 아래 순서대로 게시됩니다</div>
           )}

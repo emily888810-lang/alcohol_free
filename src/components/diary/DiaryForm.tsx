@@ -79,6 +79,7 @@ export function DiaryForm({ initial, moods, cats, charChoices, initialCharId, in
   const [moodId, setMoodId] = useState(initial?.moodId ?? moods[0]?.id ?? '');
   const [body, setBody] = useState(initial?.body ?? '');
   const [imgs, setImgs] = useState<ImgItem[]>(() => (initial?.imgIds ?? []).map(r => ({ id: newId(), ref: r })));
+const [imageUrlInput, setImageUrlInput] = useState('');
   const [visibility, setVisibility] = useState<Visibility>(initial?.visibility ?? 'public');
   const [charId, setCharId] = useState<string>(
     initial?.charId ?? (initialCharId && charChoices.some(c => c.id === initialCharId) ? initialCharId : charChoices[0]?.id ?? ''));
@@ -250,6 +251,30 @@ export function DiaryForm({ initial, moods, cats, charChoices, initialCharId, in
           }} />
         <button className="btn btn-ghost" style={{ padding: '5px 12px', fontSize: 11, justifySelf: 'center' }}
           onClick={() => document.getElementById('dyImgF')?.click()}>＋ ADD IMAGE</button>
+          
+<div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+  <KInput
+    placeholder="이미지 URL (https://...)"
+    value={imageUrlInput}
+    onChange={e => setImageUrlInput(e.target.value)}
+  />
+  <button
+    type="button"
+    className="btn btn-ghost"
+    onClick={() => {
+      const url = imageUrlInput.trim();
+      if (!/^https?:\/\//i.test(url)) {
+        toast('https://로 시작하는 이미지 주소를 입력해 주세요');
+        return;
+      }
+      setImgs(prev => [...prev, { id: newId(), ref: url }]);
+      setImageUrlInput('');
+    }}
+  >
+    + ADD URL
+  </button>
+</div>
+
       </div>
 
       <div>

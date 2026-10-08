@@ -476,6 +476,13 @@ export function BannerEditor({ conf, onSaved, onClose }: {
           <KInput placeholder="캡션" value={d.cap} onChange={e => patch(d.id, { cap: e.target.value })} />
           <KInput placeholder="설명" value={d.sub} onChange={e => patch(d.id, { sub: e.target.value })} />
         </div>
+        
+<KInput
+  placeholder="이미지 URL (예: /my-banner1.png)"
+  value={d.img ?? ""}
+  onChange={e => patch(d.id, { img: e.target.value })}
+/>
+
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           {/* 풀주소를 붙여넣어도 사이트 오리진을 떼고 /rels/… 상대경로로 (v1.9) */}
           <KInput placeholder="링크 (선택)" value={d.link} onChange={e => patch(d.id, { link: normalizeInternalLink(e.target.value) })} />

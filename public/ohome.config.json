@@ -1,0 +1,9 @@
+{
+  "kind": "firebase",
+  "apiKey": "AIzaSyAXbrmHrsF2hV2c0AiQANeGnSS0_xVNorY",
+  "authDomain": "alcohol-free-home.firebaseapp.com",
+  "projectId": "alcohol-free-home",
+  "storageBucket": "alcohol-free-home.firebasestorage.app",
+  "appId": "1:764067430267:web:9b5c700b44e3375061c7de",
+  "messagingSenderId": "764067430267"
+}
